@@ -697,9 +697,9 @@ class Card(TrelloBase):
         elif url:
             kwargs['url'] = url
         self.client.fetch_json(
-            '/cards/' + self.id + '/cover',
+            '/cards/' + self.id,
             http_method='PUT',
-            post_args=kwargs)    
+            post_args={'cover': kwargs})    
             
     def attach(self, name=None, mimeType=None, file=None, url=None, setCover=None):
         """
