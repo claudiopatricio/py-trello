@@ -697,7 +697,7 @@ class Card(TrelloBase):
         elif url:
             kwargs['url'] = url
         self.client.fetch_json(
-            '/cards/' + self.id,
+            '/cards/' + self.id + '/cover',
             http_method='PUT',
             post_args=kwargs)    
             
