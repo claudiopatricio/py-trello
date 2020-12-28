@@ -680,7 +680,7 @@ class Card(TrelloBase):
         :param attachment_id: Attachment id of an attached image.
         :return: None
         """
-        if (color and url) or (color and idAttachment) or (idAttachment and url) or (not color and not url and not idAttachment and not brightness):
+        if (color and url) or (color and attachment_id) or (attachment_id and url) or (not color and not url and not attachment_id and not brightness):
             raise Exception('Please provide either a color or url or idAttachment, and not both! You can also only change the brightness')
         
         kwargs = {
