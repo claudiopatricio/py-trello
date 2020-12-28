@@ -670,7 +670,37 @@ class Card(TrelloBase):
         self.client.fetch_json(
             '/cards/' + self.id + '/idMembers/' + member.id,
             http_method='DELETE')
-
+    
+    def add_cover(self, color=None, brightness="dark", url=None, attachment_id=None, size="normal"):
+        """
+        Add a cover to the card. The cover can be a color, url or attachment.
+        :param color: Makes the cover a solid color: pink, yellow, lime, blue, black, orange, red, purple, sky, green
+        :param brightness: Determines whether the text on the cover should be: dark, light
+        :param url: url image (only unsplash urls)
+        :param attachment_id: Attachment id of an attached image.
+        :return: None
+        """
+        if (color and url) or (color and idAttachment) or (idAttachment and url) or (not color and not url and not idAttachment and not brightness):
+            raise Exception('Please provide either a color or url or idAttachment, and not both! You can also only change the brightness')
+        
+        kwargs = {
+            'size': size,
+            'brightness': brightness
+        }
+        
+        if color:
+            if color.lower() not in ["pink", "yellow", "lime", "blue", "black", "orange", "red", "purple", "sky", "green"]:
+                 raise Exception('Only these colors are available: pink, yellow, lime, blue, black, orange, red, purple, sky, green')
+            kwargs['color'] = color
+        elif attachment_id:
+            kwargs['idAttachment'] = attachment_id
+        elif url:
+            kwargs['url'] = url
+        self.client.fetch_json(
+            '/cards/' + self.id,
+            http_method='PUT',
+            post_args=kwargs)    
+            
     def attach(self, name=None, mimeType=None, file=None, url=None, setCover=None):
         """
         Add an attachment to the card. The attachment can be either a
